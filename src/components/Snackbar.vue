@@ -1,14 +1,16 @@
 <template>
-  <div class="snackbar" v-if="msg">
-    <p class="snackbar__message">{{ msg }}</p>
-    <Button
-      @button-click="clearTimer"
-      event="close"
-      background="primary"
-      text="Close"
-      size="sm"
-    />
-  </div>
+  <transition name="fade">
+    <div class="snackbar" v-if="msg">
+      <p class="snackbar__message">{{ msg }}</p>
+      <Button
+        @button-click="clearTimer"
+        event="close"
+        background="primary"
+        text="Close"
+        size="sm"
+      />
+    </div>
+  </transition>
 </template>
 
 <script>
@@ -81,5 +83,15 @@ export default {
     width: 100px;
     padding: 1.5rem;
   }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
