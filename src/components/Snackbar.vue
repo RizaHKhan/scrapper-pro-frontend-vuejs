@@ -1,15 +1,25 @@
 <template>
   <div class="snackbar" v-if="msg">
     <p class="snackbar__message">{{ msg }}</p>
-    <button class="snackbar__button" @click="clearTimer">Close</button>
+    <Button
+      @button-click="clearTimer"
+      event="close"
+      background="primary"
+      text="Close"
+      size="sm"
+    />
   </div>
 </template>
 
 <script>
 import { useStore } from "vuex";
 import { computed, watch } from "vue";
+import Button from "@/components/Button.vue";
 
 export default {
+  components: {
+    Button
+  },
   setup() {
     let timer;
     const store = useStore();
@@ -55,12 +65,12 @@ export default {
   border-radius: 5px;
   padding: 1rem;
   position: absolute;
-  bottom: 0px;
+  bottom: 10px;
   right: 10px;
-  width: 400px;
+  width: 300px;
   display: flex;
   flex-direction: column;
-  transition: all 0.5s ease;
+  transition: all 5s ease;
 
   &__message {
     font-size: 2rem;
