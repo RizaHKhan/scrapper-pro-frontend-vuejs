@@ -1,18 +1,57 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+  <div class="main">
+    <div id="nav">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link>
+    </div>
+    <router-view />
+    <button @click="addMsg">Click Me</button>
+    <Snackbar />
   </div>
-  <router-view />
 </template>
 
+<script>
+import Snackbar from "@/components/Snackbar";
+import { useStore } from "vuex";
+
+export default {
+  components: {
+    Snackbar
+  },
+  setup() {
+    let val = 0;
+    const store = useStore();
+
+    function addMsg() {
+      store.commit("snackbar/addMsg", `message${val++}`);
+    }
+
+    return {
+      addMsg
+    };
+  }
+};
+</script>
 <style lang="scss">
+*,
+*:before,
+*:after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+
+.main {
+  height: 100%;
+  overflow: hidden;
 }
 
 #nav {
