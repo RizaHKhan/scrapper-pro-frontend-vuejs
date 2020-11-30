@@ -34,7 +34,8 @@ export default {
     const store = useStore();
 
     function addMsg() {
-      store.commit("snackbar/addMsg", `message${val++}`);
+      store.commit("snackbar/addMessage", `message${val++}`);
+      console.log(store.state.snackbar.messages);
     }
 
     function handleClick(event) {
