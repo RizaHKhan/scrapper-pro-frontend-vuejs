@@ -1,13 +1,13 @@
 <template>
   <transition name="fade">
-    <div class="snackbar" v-if="msg">
-      <p class="snackbar__message">{{ msg }}</p>
+    <div class="snackbar" v-if="message">
+      <p class="snackbar__message">{{ message }}</p>
       <Button
-        @button-click="clearTimer"
         event="close"
         background="primary"
         text="Close"
         size="sm"
+        @click="changeMessage(true)"
       />
     </div>
   </transition>
@@ -23,39 +23,28 @@ export default {
     Button
   },
   setup() {
-    let timer;
     const store = useStore();
-    let msg = computed(() => store.getters["snackbar/getFirstMsg"]);
+    let message = computed(() => store.getters["snackbar/getFirstMessage"]);
+    changeMessage();
 
-    if (msg.value) {
-      startTimer();
-    }
-
-    watch(msg, () => {
-      msg = computed(() => store.getters["snackbar/getFirstMsg"]);
-      if (msg.value) {
-        startTimer();
-      } else {
-        clearTimer();
-      }
+    watch(message, async () => {
+      await changeMessage();
     });
 
-    function startTimer() {
-      timer = setTimeout(removeShownMsg, 3000);
-    }
-
-    function removeShownMsg() {
-      store.commit("snackbar/removeShownMsg");
-    }
-
-    function clearTimer() {
-      clearTimeout(timer);
-      removeShownMsg();
+    async function changeMessage(fail) {
+      try {
+        if (fail) throw new Error();
+        await new Promise(resolve => setTimeout(resolve, 3000));
+        store.commit("snackbar/removeShownMessage");
+      } catch (e) {
+        store.commit("snackbar/removeAllMessages");
+      }
     }
 
     return {
-      msg,
-      clearTimer
+      message,
+      changeMessage
+      // clearTimer
     };
   }
 };
