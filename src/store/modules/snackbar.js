@@ -1,18 +1,25 @@
+// import _ from "lodash";
+
 const snackbar = {
   namespaced: true,
   state: () => ({
-    msg: ["Error 1", "Error 2"]
+    // messages: ["Error 1", "Error 2"]
+    messages: []
   }),
   mutations: {
-    addMsg(state, msg) {
-      state.msg.push(msg);
+    addMessage(state, newMessage) {
+      state.messages.push(newMessage);
     },
-    removeShownMsg(state) {
-      state.msg.shift();
+    removeShownMessage(state) {
+      state.messages.shift();
+    },
+    removeAllMessages(state) {
+      state.messages = [];
     }
   },
   getters: {
-    getFirstMsg: state => (state.msg[0] ? state.msg[0] : false)
+    getFirstMessage: state =>
+      state.messages.length ? state.messages[0] : false
   }
 };
 
